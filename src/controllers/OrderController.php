@@ -1132,7 +1132,7 @@ class OrderController extends BaseController
 
                     $file->source = Translations::$plugin->elementToFileConverter->convert(
                         $element,
-                        Constants::FILE_FORMAT_XML,
+                        Constants::FILE_FORMAT_XLF,
                         [
                             'sourceSite'    => $file->sourceSite,
                             'targetSite'    => $file->targetSite,

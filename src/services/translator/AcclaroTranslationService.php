@@ -306,13 +306,13 @@ class AcclaroTranslationService implements TranslationServiceInterface
             $targetSite = Translations::$plugin->siteRepository->normalizeLanguage(Craft::$app->getSites()->getSiteById($file->targetSite)->language);
 
             if ($element instanceof GlobalSet) {
-                $filename = ElementHelper::normalizeSlug($element->name).'-'.$targetSite.'.'.Constants::FILE_FORMAT_XML;
+                $filename = ElementHelper::normalizeSlug($element->name).'-'.$targetSite.'.'.Constants::FILE_FORMAT_XLF;
             } else if ($element instanceof Asset) {
                 $assetFilename = $element->getFilename();
                 $fileInfo = pathinfo($element->getFilename());
-                $filename = $file->elementId . '-' . basename($assetFilename,'.'.$fileInfo['extension']) . '-' . $targetSite . '.' . Constants::FILE_FORMAT_XML;
+                $filename = $file->elementId . '-' . basename($assetFilename,'.'.$fileInfo['extension']) . '-' . $targetSite . '.' . Constants::FILE_FORMAT_XLF;
             } else {
-                $filename = $element->slug.'-'.$targetSite.'.'.Constants::FILE_FORMAT_XML;
+                $filename = $element->slug.'-'.$targetSite.'.'.Constants::FILE_FORMAT_XLF;
             }
 
             $path = $tempPath .'/'. $file->elementId .'-'. $filename;

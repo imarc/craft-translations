@@ -77,13 +77,13 @@ class ElementTranslator
 
     private function getDataFormat($data) {
         if (strpos($data, "<xml>") !== false) {
-            return Constants::FILE_FORMAT_XML;
+            return Constants::FILE_FORMAT_XLF;
         }
         return Constants::FILE_FORMAT_JSON;
     }
 
     public function getTargetData($content, $nonNested = false) {
-        if ($this->getDataFormat($content) === Constants::FILE_FORMAT_XML) {
+        if ($this->getDataFormat($content) === Constants::FILE_FORMAT_XLF) {
             return $this->getTargetDataFromXml($content, $nonNested);
         } else {
             $targetData = [];

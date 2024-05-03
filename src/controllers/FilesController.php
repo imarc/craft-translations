@@ -50,7 +50,8 @@ class FilesController extends BaseController
     {
         $params = Craft::$app->getRequest()->getRequiredBodyParam('params');
 
-        $fileFormat = $params['format'] ?? Constants::FILE_FORMAT_XML;
+        // $fileFormat = $params['format'] ?? Constants::FILE_FORMAT_XLF;
+        $fileFormat = Constants::FILE_FORMAT_XLF;
 
         $order = Translations::$plugin->orderRepository->getOrderById($params['orderId']);
 
@@ -203,7 +204,7 @@ class FilesController extends BaseController
             if ($file && $file->size > 0) {
                 if (!in_array($file->extension, $this->_allowedTypes)) {
                     Craft::$app->getSession()->set('fileImportError', 1);
-                    $this->setError("'$file->name' is not a supported translation file type. Please submit a [ZIP, XML, JSON, CSV] file.");
+                    $this->setError("'$file->name' is not a supported translation file type. Please submit a [ZIP, XML, JSON, CSV, XLF] file.");
                 } else {
                     //If is a Zip File
                     if ($file->extension === Constants::FILE_FORMAT_ZIP) {
@@ -231,6 +232,7 @@ class FilesController extends BaseController
                                 $fileInfo = pathinfo($filename);
 
                                 $uploadVolumeId = ArrayHelper::getValue(Translations::getInstance()->getSettings(), 'uploadVolume');
+
                                 $folder = $this->getFolderByVolumeId($uploadVolumeId);
 
                                 $pathInfo = pathinfo($file);
@@ -313,6 +315,7 @@ class FilesController extends BaseController
                         $filename = Assets::prepareAssetName($file->name);
 
                         $uploadVolumeId = ArrayHelper::getValue(Translations::getInstance()->getSettings(), 'uploadVolume');
+
                         $folder = $this->getFolderByVolumeId($uploadVolumeId);
 
                         $compatibleFilename = $file->tempName . '.' . Constants::FILE_FORMAT_TXT;
@@ -389,7 +392,7 @@ class FilesController extends BaseController
             $this->setError($exception->getMessage());
         }
     }
-    
+
     private function _extractFiles($uploadedFile) {
         $zip = new \ZipArchive();
         $assetPath = $uploadedFile->saveAsTempFile();
@@ -578,7 +581,7 @@ class FilesController extends BaseController
 
         return $zip_name;
     }
-    
+
     private function getFolderByVolumeId($volumeId) {
         if ($volumeId == 0) {
             return Craft::$app->getAssets()->getUserTemporaryUploadFolder();

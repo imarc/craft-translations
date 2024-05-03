@@ -499,7 +499,7 @@ class OrderRepository
 
                     $currentContent = $converter->convert(
                         $element,
-                        Constants::FILE_FORMAT_XML,
+                        Constants::FILE_FORMAT_XLF,
                         [
                             'sourceSite'    => $order->sourceSite,
                             'targetSite'    => $file->targetSite,

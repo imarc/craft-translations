@@ -132,7 +132,7 @@ class ElementToFileConverter
      * @return file
      */
     public function convert(Element $element, $format, $data) {
-        if ($format == Constants::FILE_FORMAT_XML) {
+        if ($format == Constants::FILE_FORMAT_XLF) {
             $sourceSite = $data['sourceSite'] ?? null;
             $targetSite = $data['targetSite'] ?? null;
             $wordCount  = $data['wordCount'] ?? 0;
@@ -208,7 +208,7 @@ class ElementToFileConverter
 
     public function getElementIdFromData($content, $extension) {
         try {
-            if ($extension == Constants::FILE_FORMAT_XML) {
+            if ($extension == Constants::FILE_FORMAT_XLF) {
                 $xml_content = $content;
             } else if ($extension == Constants::FILE_FORMAT_CSV) {
                 $xml_content = $this->jsonToXml($this->csvToJson($content));

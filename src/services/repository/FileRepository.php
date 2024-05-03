@@ -332,7 +332,7 @@ class FileRepository
 
                 $file->source = Translations::$plugin->elementToFileConverter->convert(
                     $element,
-                    Constants::FILE_FORMAT_XML,
+                    Constants::FILE_FORMAT_XLF,
                     [
                         'sourceSite'    => $order->sourceSite,
                         'targetSite'    => $targetSite,
@@ -361,7 +361,7 @@ class FileRepository
         $file->targetSite = $targetSite;
         $file->source = Translations::$plugin->elementToFileConverter->convert(
             $element,
-            Constants::FILE_FORMAT_XML,
+            Constants::FILE_FORMAT_XLF,
             [
                 'sourceSite'    => $order->sourceSite,
                 'targetSite'    => $targetSite,

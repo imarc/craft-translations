@@ -448,7 +448,7 @@ class WidgetController extends BaseController
                     // Current entries XML
                     $currentXML = Translations::$plugin->elementToFileConverter->convert(
                         $element,
-                        Constants::FILE_FORMAT_XML,
+                        Constants::FILE_FORMAT_XLF,
                         [
                             'sourceSite'    =>  Craft::$app->getSites()->getPrimarySite()->id,
                             'targetSite'    => $file->targetSite,
@@ -539,7 +539,7 @@ class WidgetController extends BaseController
             // Current entries XML
             $currentXML = Translations::$plugin->elementToFileConverter->convert(
                 $element,
-                Constants::FILE_FORMAT_XML,
+                Constants::FILE_FORMAT_XLF,
                 [
                     'sourceSite'    => Craft::$app->getSites()->getPrimarySite()->id,
                     'targetSite'    => Craft::$app->getSites()->getPrimarySite()->id,

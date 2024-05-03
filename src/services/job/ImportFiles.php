@@ -91,7 +91,7 @@ class ImportFiles extends BaseJob
                 return $this->processJsonFile($asset, $file_content);
             } else if ($this->fileFormat === Constants::FILE_FORMAT_CSV) {
                 return $this->processCsvFile($asset, $file_content);
-            } else if ($this->fileFormat === Constants::FILE_FORMAT_XML) {
+            } else if ($this->fileFormat === Constants::FILE_FORMAT_XML || $this->fileFormat === Constants::FILE_FORMAT_XLF) {
                 return $this->processXmlFile($asset, $file_content);
             } else {
                 $this->orderLog(sprintf(
