@@ -302,6 +302,7 @@ class Constants
         'amici\SuperDynamicFields\fields\SueprDynamicCheckboxesField',
         'amici\SuperDynamicFields\fields\SueprDynamicMultiSelectField',
         'craft\ckeditor\Field',
+        'verbb\hyper\fields\HyperField'
     ];
 
     const UNRELATED_FIELD_TYPES = [
