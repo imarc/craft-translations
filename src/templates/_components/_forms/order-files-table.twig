@@ -61,9 +61,16 @@
                             <div id="{{ "filePreview-"~ file.id }}">
                                 <div class="elements">
                                     <div class="element flex" title="{{ file.uiLabel ~" - " ~siteObjects[file.targetSite].name }}">
-                                        <div class="label" data-id="{{ file.elementId }}" data-editable="" data-site-id={{ file.targetSite }} {% if file.isComplete or element.isDraft %} data-draft-id={{ file.isComplete ? file.draftId : element.draftId }} {% endif %}>
-                                            <span class="title text-link">{{ file.uiLabel }}</span>
-                                        </div>
+                                       {% if element.className == constant('acclaro\\translations\\Constants::CLASS_NAVIGATION') %}
+                                            {% set node = craft.navigation.nodes().uid(element.uid).one() %}
+                                            <div class="label" data-id="{{ file.elementId }}" data-editable="" data-site-id={{ file.targetSite }} {% if file.isComplete or element.isDraft %} data-draft-id={{ file.isComplete ? file.draftId : element.draftId }} {% endif %}>
+                                                <span class="title text-link">{{ node.title }}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="label" data-id="{{ file.elementId }}" data-editable="" data-site-id={{ file.targetSite }} {% if file.isComplete or element.isDraft %} data-draft-id={{ file.isComplete ? file.draftId : element.draftId }} {% endif %}>
+                                                <span class="title text-link">{{ file.uiLabel }}</span>
+                                            </div>
+                                        {% endif %}
                                         {% set sourceUpdated = file.elementId in isSourceChanged %}
                                         {% set targetUpdated = order.trackTargetChanges and file.hasTmMisAlignments and not file.isNew and not file.isModified %}
 
@@ -79,11 +86,7 @@
                                         <a id="{{ fileId }}" data-icon="world" title="{{ 'Visit webpage'|t }}"></a>
 
                                         {% js %}
-                                            {% if element.className == constant('acclaro\\translations\\Constants::CLASS_COMMERCE_PRODUCT') %}
-                                                new Craft.Translations.CommercePreview({{ file.filePreviewSettings('#'~ fileId)|json_encode|raw }});
-                                            {% else %}
-                                                new Craft.Translations.FilePreview($('#{{fileId}}'), {{ file.filePreviewSettings|json_encode|raw }});
-                                            {% endif %}
+                                            new Craft.Translations.FilePreview($('#{{fileId}}'), {{ file.filePreviewSettings|json_encode|raw }}, {{ file.elementId}});
                                         {% endjs %}
                                     {% endif %}
 
@@ -132,6 +135,8 @@
                             {{ 'Asset' }}
                         {% elseif isCraftCommerce %}
                             {{ element.type }}
+                        {% elseif element.className == constant('acclaro\\translations\\Constants::CLASS_NAVIGATION') %}
+                            {{ 'Navigation' }}
                         {% else %}
                             {{ element.section.name }}
                         {% endif %}

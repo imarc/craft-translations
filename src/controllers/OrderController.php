@@ -121,6 +121,7 @@ class OrderController extends BaseController
 		$variables['elementWordCounts'] = array();
         $variables['orderWordCount'] = 0;
         $variables['translatorOptions'] = Translations::$plugin->translatorRepository->getTranslatorOptions();
+        $variables['programOptions'] = [];
         $variables['translatorServices'] = [];
 
         if ($variables['isProcessing']) {
@@ -196,6 +197,10 @@ class OrderController extends BaseController
 
 			if ($orderTranslatorId= Craft::$app->getRequest()->getQueryParam('translatorId')) {
 				$order->translatorId = $orderTranslatorId;
+			}
+
+            if ($selectedProgramId = Craft::$app->getRequest()->getQueryParam('programId')) {
+				$order->programId = $selectedProgramId;
 			}
 
 			if ($orderTrackChanges= Craft::$app->getRequest()->getQueryParam('trackChanges')) {
@@ -493,6 +498,7 @@ class OrderController extends BaseController
 
             $order->comments = Craft::$app->getRequest()->getParam('comments');
             $order->translatorId = Craft::$app->getRequest()->getParam('translatorId');
+            $order->programId = Craft::$app->getRequest()->getBodyParam('programId');
 
             $order->elementIds = json_encode($elementIds);
 
@@ -541,7 +547,7 @@ class OrderController extends BaseController
             $order->wordCount = array_sum($wordCounts);
 
             // Manual Translation will make orders 'in progress' status after creation
-            $success = Craft::$app->getElements()->saveElement($order, true, true, false);
+            $success = Craft::$app->getElements()->saveElement($order, true, true, true);
 
             if (!$success) {
                 Translations::$plugin->logHelper->log('[' . __METHOD__ . '] Couldn’t save the order', Constants::LOG_LEVEL_ERROR);
@@ -611,7 +617,7 @@ class OrderController extends BaseController
                 $order->status = Constants::ORDER_STATUS_NEW;
                 $order->dateOrdered = new DateTime();
 
-                $success = Craft::$app->getElements()->saveElement($order, true, true, false);
+                $success = Craft::$app->getElements()->saveElement($order, true, true, true);
 
                 if (! $success) {
                     Translations::$plugin->logHelper->log('[' . __METHOD__ . '] Couldn’t save the order', Constants::LOG_LEVEL_ERROR);

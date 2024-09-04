@@ -15,6 +15,7 @@ use yii\web\HttpException;
 
 use acclaro\translations\Constants;
 use acclaro\translations\Translations;
+use acclaro\translations\services\translator\AcclaroTranslationService;
 
 /**
  * @author    Acclaro
@@ -181,5 +182,33 @@ class TranslatorController extends BaseController
         }
 
         return $this->asSuccess(null, json_decode(json_encode($translators), true));
+    }
+
+    /**
+     * @return json
+     */
+    public function actionProgramList($translatorId)
+    {
+        $translator = Translations::$plugin->translatorRepository->getTranslatorById($translatorId);
+
+        if (!$translator) {
+            return $this->asFailure($this->getErrorMessage('Invalid translator.'), []);
+        }
+
+        $translatorSettings = json_decode($translator->settings, true);
+
+        $addToProgramAllowed = (bool) $translatorSettings['addToProgram'];
+
+        $programOptions = [];
+        if($addToProgramAllowed) {
+            $translationService = new AcclaroTranslationService($translatorSettings);
+            $programOptions = $translationService->getProgramsList();
+        }
+
+        return $this->asJson([
+            'status' => true,
+            'addToProgramAllowed' => $addToProgramAllowed,
+            'programOptions' => $programOptions
+        ]);
     }
 }

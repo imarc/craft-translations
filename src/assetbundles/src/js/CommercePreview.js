@@ -2,49 +2,173 @@
     if (typeof Craft.Translations === 'undefined') {
         Craft.Translations = {};
     }
+    var O = Garnish;
 
-    Craft.Translations.CommercePreview = Craft.LivePreview.extend({
-        $extraFields: null, $trigger: null, $shade: null, $editorContainer: null, $editor: null, $dragHandle: null, $previewContainer: null, $iframeContainer: null, $iframe: null, $fieldPlaceholder: null, previewUrl: null, token: null, basePostData: null, inPreviewMode: !1, fields: null, lastPostData: null, updateIframeInterval: null, loading: !1, checkAgain: !1, dragger: null, dragStartEditorWidth: null, _slideInOnIframeLoad: !1, _scrollX: null, _scrollY: null, _editorWidth: null, _editorWidthInPx: null,
+    Craft.Translations.FilePreview = O.Base.extend({
+        $container: null,
+        $previewBtn: null,
+        openingPreview: !1,
+        preview: null,
+        activatedPreviewToken: !1,
+        previewTokenQueue: null,
+        previewLinks: null,
+        scrollY: null,
+        hasSpinner: null,
+        $originalContent: null,
 
-        init: function (t) {
-            var e = this;
-            this.setSettings(t, Craft.Translations.CommercePreview.defaults),
-                this.settings.previewUrl ? this.previewUrl = this.settings.previewUrl : this.previewUrl = Craft.baseSiteUrl.replace(/\/+$/, "") + "/", "https:" === document.location.protocol && (this.previewUrl = this.previewUrl.replace(/^http:/, "https:")), this.basePostData = $.extend({}, this.settings.previewParams),
-                this.$extraFields = $(this.settings.extraFields),
-                this.$trigger = $(this.settings.trigger),
-                this.addListener(this.$trigger, "activate", "toggle")
+        init: function (t, e, elementId) {
+            this.$container = $('#files'),
+            this.$originalContent = $('#content'),
+            this.setSettings(e, Craft.Translations.FilePreview.defaults),
+
+            this.previewLinks = [],
+            this.previewTokenQueue = this._createQueue(),
+            this.$previewBtn = this.$container.find(t);
+            this.elementId = elementId;
+            this.draftId = this.settings.draftId;
+            this.siteId = this.settings.siteId;
+            var s = $("#page-title");
+
+            if ($('#page-title').find('div.revision-spinner').length == 0) {
+                this.$spinner = $("<div/>", { class: "revision-spinner spinner hidden", title: Craft.t("app", "Loading") }).appendTo(s);
+            } else {
+                this.$spinner = $('#page-title').find('div.revision-spinner');
+            }
+
+            if (this.settings.previewTargets.length) {
+                this.addListener(this.$previewBtn, "click", "openPreview");
+            }
         },
-        toggle: function () {
-            this.inPreviewMode = !1; this.enter()
+
+        updatePreviewLinks: function () {
+            var t = this; this.previewLinks.forEach((function (e) { t.updatePreviewLinkHref(e), t.activatedPreviewToken && t.removeListener(e, "click"); }));
         },
-        enter: function () {
+
+        updatePreviewLinkHref: function (t) {
+            t.attr("href", this.getTokenizedPreviewUrl(t.data("targetUrl"), null, !1));
+        },
+
+        activatePreviewToken: function () {
+            this.settings.isLive || (this.activatedPreviewToken = !0, this.updatePreviewLinks());
+        },
+
+        getPreviewTokenParams: function () {
+            var t = { elementType: this.settings.elementType, canonicalId: this.settings.canonicalId, siteId: this.settings.siteId, previewToken: this.settings.previewToken };
+
+            return this.settings.draftId && (t.draftId = this.settings.draftId), t;
+        },
+
+        getPreviewToken: function () {
             var t = this;
-            if (this.token) {
-                if (this.trigger("beforeEnter"), $(document.activeElement).trigger("blur"), !this.$editor) {
-                    this.$shade = $("<div/>", { class: "modal-shade dark" }).appendTo(Garnish.$bod),
-                        this.$previewContainer = $("<div/>", { class: "lp-preview-container" }).appendTo(Garnish.$bod),
-                        this.$iframeContainer = $("<div/>", { class: "lp-iframe-container" }).appendTo(this.$previewContainer),
-                        this.$editorContainer = $("<div/>", { class: "lp-editor-container hidden" }).appendTo(Garnish.$bod);
-                    var e = $("<header/>", { class: "lp-preview-header" }).appendTo(this.$previewContainer);
-                    this.$editor = $("<form/>", { class: "lp-editor" }).appendTo(this.$editorContainer),
-                        this.$dragHandle = $("<div/>", { class: "lp-draghandle" }).appendTo(this.$editorContainer);
-                    var i = $("<button/>", { type: "button", class: "btn", text: Craft.t("app", "Close Preview") }).appendTo(e);
-                    this.dragger = new Garnish.BaseDrag(this.$dragHandle, { axis: Garnish.X_AXIS, onDragStart: this._onDragStart.bind(this), onDrag: this._onDrag.bind(this), onDragStop: this._onDragStop.bind(this) }),
-                        this.addListener(i, "click", "exit")
-                } this.handleWindowResize(), this.addListener(Garnish.$win, "resize", "handleWindowResize"),
-                    this.$editorContainer.css(Craft.left, 0 + "px"),
-                    this.$previewContainer.css(Craft.right, -this.getIframeWidth()),
-                    this.fields = [];
-                for (var n = $(this.settings.fields), a = 0; a < n.length; a++){ var r = $(n[a]), o = this._getClone(r); this.$fieldPlaceholder.insertAfter(r), r.detach(), this.$fieldPlaceholder.replaceWith(o), r.appendTo(this.$editor), this.fields.push({ $field: r, $clone: o }) } this.updateIframe() ? this._slideInOnIframeLoad = !0 : this.slideIn(), Craft.ElementThumbLoader.retryAll(), Garnish.uiLayerManager.addLayer(this.$sidebar), Garnish.uiLayerManager.registerShortcut(Garnish.ESC_KEY, (function () { t.exit() })), this.inPreviewMode = !0, this.trigger("enter")
-            } else this.createToken()
+            return this.previewTokenQueue.push((function () { return new Promise((function (e, i) { t.activatedPreviewToken ? e(t.settings.previewToken) : Craft.sendActionRequest("POST", "preview/create-token", { data: t.getPreviewTokenParams() }).then((function () { t.activatePreviewToken(), e(t.settings.previewToken); })).catch(i); })); }));
         },
-        getIframeWidth: function () {
-            return Garnish.$win.width()
-        }
+
+        getTokenizedPreviewUrl: function (t, e, i) {
+            var s = this;
+            void 0 === i && (i = !0);
+            var n = {};
+
+            if (!e && this.settings.isLive || (n[e || "x-craft-preview"] = Craft.randomString(10)), this.settings.siteToken && (n[Craft.siteToken] = this.settings.siteToken), this.settings.isLive) {
+                var a = Craft.getUrl(t, n);
+                return i ? new Promise((function (t) { t(a); })) : a;
+            }
+
+            if (!this.settings.previewToken)
+                throw "Missing preview token";
+
+            n[Craft.tokenParam] = this.settings.previewToken;
+
+            var r = Craft.getUrl(t, n);
+
+            if (this.activatedPreviewToken)
+                return i ? new Promise((function (t) { t(r); })) : r;
+
+            if (i)
+                return new Promise((function (t, e) { s.getPreviewToken().then((function () { t(r); })).catch(e); }));
+
+            var o = this.getPreviewTokenParams();
+
+            return o.redirect = r, Craft.getActionUrl("preview/create-token", o);
+        },
+
+        getPreview: function () {
+            var t = this;
+
+            return (this.preview = new Craft.Preview(this),
+                this.preview.on("open", (function () {
+                        $preview = $(document).find('div.lp-device-mask');
+                        if ($preview.length) {
+                            $preview.find('.lp-editor-container').addClass('hidden');
+                            $button = $preview.find('div.lp-editor-container header button');
+                            $button.addClass('margin-right-10');
+                            $preview.find('.lp-preview-container').addClass('w-100');
+                            $preview.find('.lp-preview-container header').prepend($button);
+                        }
+                    })),
+                    this.preview.on("close", (function () {
+                        t.scrollY && (window.scrollTo(0, t.scrollY), t.scrollY = null);
+
+                        // Remove preview modal on close as we can have multipe preview files.
+                        t.removePreview();
+                    }))
+                ), this.preview;
+        },
+
+        removePreview: function () {
+            $preview = $(document).find('div[aria-labelledby=lp-preview-heading]');
+
+            if ($preview.length >= 1) {
+                $preview.remove();
+                $(document).find('div.modal-shade.dark').remove();
+                this.preview = null;
+            }
+        },
+
+        openPreview: function () {
+            var t = this;
+
+            return new Promise((function (e, i) {
+                t.openingPreview = !0,
+                t.ensureIsDraftOrRevision(!0)
+                    .then((function () {
+                        t.scrollY = window.scrollY, t.getPreview().open(),
+                        t.openingPreview = !1, e();
+                    }))
+                    .catch(i);
+            }));
+        },
+
+        ensureIsDraftOrRevision: function (t) {
+            var e = this;
+
+            return new Promise((function (i, s) {
+                if (e.settings.draftId)
+                    i();
+                else {
+                    return void i();
+                }
+            }));
+        },
+
+        spinners: function () { return this.preview ? this.$spinner.add(this.preview.$spinner) : this.$spinner; },
+
+        showSpinner: function () { this.spinners().removeClass("hidden"); },
+
+        hideSpinner: function () { this.spinners().addClass("hidden"); },
+
+        _createQueue: function () {
+            var t = this,
+            e = new Craft.Queue;
+            return e.on("beforeRun", (function () {
+                t.showSpinner();
+            })), e.on("afterRun", (function () {
+                t.hideSpinner();
+            })), e;
+        },
     },{
         defaults:
         {
-            trigger: ".livepreviewbtn", fields: null, extraFields: null, previewUrl: null, previewAction: null, previewParams: {}
+            canonicalId: null, draftId: null, elementType: null, isLive: !1, previewTargets: [], previewToken: null, siteId: null, siteToken: null
         }
     });
 

@@ -15,7 +15,7 @@ use craft\base\Element;
 use acclaro\translations\Translations;
 use acclaro\translations\services\ElementTranslator;
 
-class HyperFieldTranslator extends GenericFieldTranslator
+class HyperLinkFieldTranslator extends GenericFieldTranslator
 {
     /**
      * {@inheritdoc}
@@ -62,7 +62,7 @@ class HyperFieldTranslator extends GenericFieldTranslator
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritdoc} 
      */
     public function toPostArrayFromTranslationTarget(ElementTranslator $elementTranslator, Element $element, Field $field, $sourceSite, $targetSite, $fieldData)
     {
@@ -74,12 +74,12 @@ class HyperFieldTranslator extends GenericFieldTranslator
 
         if( $fieldData )
         {
-            foreach ($fieldData as $i => $row)
+            foreach ($fieldData as $i => $row) 
             {
                 if ( $field->id == $i)
                 {
                     foreach ($post[$fieldHandle] as $key => $value)
-                    {
+                    { 
                         if (isset($row[$key]))
                         {
                             $value['linkText'] = $row[$key];
@@ -110,7 +110,7 @@ class HyperFieldTranslator extends GenericFieldTranslator
 
         $wordCount = 0;
 
-        foreach ($data as $key => $value)
+        foreach ($data as $key => $value) 
         {
             $wordCount += Translations::$plugin->wordCounter->getWordCount(strip_tags($value->linkText));
         }

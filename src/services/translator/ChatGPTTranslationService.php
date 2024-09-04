@@ -45,7 +45,7 @@ class ChatGPTTranslationService implements TranslationServiceInterface
      */
     public function updateOrder(Order $order)
     {
-        return (new Export_ImportTranslationService([]))->updateOrder($order);
+        return (new Export_ImportTranslationService())->updateOrder($order);
     }
 
     /**
@@ -318,6 +318,6 @@ class ChatGPTTranslationService implements TranslationServiceInterface
 
     public function updateIOFile(Order $order, FileModel $file)
     {
-        return (new Export_ImportTranslationService([]))->updateIOFile($order, $file);
+        return (new Export_ImportTranslationService())->updateIOFile($order, $file);
     }
 }

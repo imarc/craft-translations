@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Translations for Craft plugin for Craft CMS 3.x
+ * Translations for Craft plugin for Craft CMS 4.x
  *
  * Translations for Craft eliminates error prone and costly copy/paste workflows for launching human translated Craft CMS web content.
  *
@@ -12,22 +13,25 @@ namespace acclaro\translations\assetbundles;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
+use verbb\base\assetbundles\CpAsset as VerbbCpAsset;
 use acclaro\translations\Constants;
 
-class FilePreviewAssets extends AssetBundle
+class NavigationAssets extends AssetBundle
 {
     public function init()
     {
         $this->sourcePath = Constants::URL_BASE_ASSETS;
 
         $this->depends = [
+            VerbbCpAsset::class,
             CpAsset::class,
         ];
 
         $this->js = [
-            'js/FilePreview.js',
-            'js/EntryPreview.js',
+            'js/AddTranslationsToNavigation.js',
         ];
+
+        $this->css = [];
 
         parent::init();
     }

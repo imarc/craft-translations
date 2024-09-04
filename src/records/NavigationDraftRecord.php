@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Translations for Craft plugin for Craft CMS 4.x
+ * Translations for Craft plugin for Craft CMS 3.x
  *
  * Translations for Craft eliminates error prone and costly copy/paste workflows for launching human translated Craft CMS web content.
  *
@@ -17,15 +16,15 @@ use acclaro\translations\Constants;
 /**
  * @author    Acclaro
  * @package   Translations
- * @since     3.1.0
+ * @since     1.0.0
  */
-class CommerceDraftRecord extends ActiveRecord
+class NavigationDraftRecord extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return Constants::TABLE_COMMERCE_DRAFT;
+        return Constants::TABLE_NAVIGATION_DRAFT;
     }
 }

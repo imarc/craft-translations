@@ -4,7 +4,7 @@ namespace acclaro\translations;
 
 class Constants
 {
-    const PLUGIN_SCHEMA_VERSION = '1.4.2';
+    const PLUGIN_SCHEMA_VERSION = '2.0.0';
     const CRAFT_MIN_VERSION = '5.0.0';
     const WORD_COUNT_LIMIT  = 2000;
     const PLUGIN_HANDLE     = 'translations';
@@ -60,6 +60,7 @@ class Constants
     const CLASS_ENTRY       = 'craft\\elements\\Entry';
 
     const CLASS_COMMERCE_PRODUCT    = 'craft\commerce\elements\Product';
+    const CLASS_NAVIGATION = 'verbb\navigation\elements\Node';
 
     // Urls
     const URL_ORDER_DETAIL          = 'translations/orders/detail/';
@@ -174,6 +175,7 @@ class Constants
     const TABLE_ASSET_DRAFT         = '{{%translations_assetdrafts}}';
     const TABLE_COMMERCE_DRAFT      = '{{%translations_commercedrafts}}';
     const TABLE_ACTIVITY_LOG        = '{{%translations_activitylogs}}';
+    const TABLE_NAVIGATION_DRAFT = '{{%translations_navigationdrafts}}';
 
     // Job Descriptions
     const JOB_ACCLARO_UPDATING_REVIEW_URL   = 'Updating Acclaro review urls';
@@ -189,6 +191,7 @@ class Constants
         'craft\fields\Matrix',
         'craft\fields\Assets',
 		'verbb\vizy\fields\VizyField',
+        'verbb\navigation\fields\NavigationField',
         'verbb\supertable\fields\SuperTableField',
         'benf\neo\Field'
     ];
@@ -211,6 +214,7 @@ class Constants
     // Api Constant
     const REQUEST_METHOD_GET = 'GET';
     const REQUEST_METHOD_POST = 'POST';
+    const REQUEST_METHOD_PUT = 'PUT';
 
     // Acclaro Api
     const ACCLARO_API_GET_ACCOUNT           = 'info/account';
@@ -225,6 +229,7 @@ class Constants
     const ACCLARO_API_DELETE_ORDER_TAG          = 'orders/{orderid}/tag-delete';
     const ACCLARO_API_ADD_ORDER_COMMENT         = 'orders/{orderid}/comment';
     const ACCLARO_API_REQUEST_ORDER_CALLBACK    = 'orders/{orderid}/callback';
+    const ACCLARO_ADD_PROGRAM_TO_ORDER = 'orders/{orderid}/programs';
 
     const ACCLARO_API_REQUEST_ORDER_QUOTE       = 'orders/{orderid}/quote';
     const ACCLARO_API_GET_QUOTE_DETAILS         = 'orders/{orderid}/quote-details';
@@ -240,6 +245,7 @@ class Constants
     const ACCLARO_API_ADD_FILE_COMMENT      = 'orders/{orderid}/files/{fileid}/comment';
     const ACCLARO_API_REQUEST_FILE_CALLBACK = 'orders/{orderid}/files/{fileid}/callback';
     const ACCLARO_API_ADD_FILE_REVIEW_URL   = 'orders/{orderid}/files/{fileid}/review-url';
+    const ACCLARO_API_GET_PROGRAMS = 'programs/list';
 
     // Iso mapping
     const PLUGIN_STORAGE_LOCATION = "@storage/" . self::PLUGIN_HANDLE;
@@ -287,7 +293,9 @@ class Constants
         'verbb\vizy\fields\VizyField',
         'craft\redactor\Field',
         'presseddigital\linkit\fields\LinkitField',
+        'verbb\hyper\fields\HyperField',
         'luwes\codemirror\fields\CodeMirrorField',
+        'verbb\navigation\fields\NavigationField',
         'verbb\supertable\fields\SuperTableField',
         'nystudio107\seomatic\fields\SeoSettings',
         'lenz\linkfield\fields\LinkField',

@@ -26,6 +26,7 @@ use acclaro\translations\models\FileModel;
 use acclaro\translations\records\FileRecord;
 use acclaro\translations\services\job\ApplyDrafts;
 use acclaro\translations\services\job\CreateDrafts;
+use verbb\navigation\elements\Node;
 
 class DraftRepository
 {
@@ -82,12 +83,12 @@ class DraftRepository
                         $globalSetDraftRepo->deleteDraft($draft);
                     }
                     break;
-                case Product::class:
-                    $commerceRepository = Translations::$plugin->commerceRepository;
-                    $success = $commerceRepository->publishDraft($draft);
+                case Node::class:
+                    $navRepository = Translations::$plugin->navigationDraftRepository;
+                    $success = $navRepository->publishDraft($draft);
 
                     if ($success) {
-                        $commerceRepository->deleteDraft($draft);
+                        $navRepository->deleteDraft($draft);
                     }
                     break;
                 default:
@@ -159,8 +160,10 @@ class DraftRepository
         }
 
         try {
+            $canonical = $draft->getCanonical();
+            $draft->setFieldValues($canonical->getFieldValues());
             // Let's try saving the element prior to applying draft
-            if (!Craft::$app->getElements()->saveElement($draft, true, true, false)) {
+            if (!Craft::$app->getElements()->saveElement($draft, true, true, true)) {
                 throw new InvalidElementException($draft);
             }
 
@@ -263,6 +266,9 @@ class DraftRepository
                     break;
                 case Asset::class:
                     $draft = Translations::$plugin->assetDraftRepository->createDraft($element, $site, $order->title, $order->sourceSite);
+                    break;
+                case Node::class:
+                    $draft = Translations::$plugin->navigationDraftRepository->createDraft($element, $site, $order->title, $order->sourceSite);
                     break;
                 default:
                     $draft = Translations::$plugin->entryRepository->createDraft($element, $site, $order->title);

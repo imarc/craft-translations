@@ -45,7 +45,7 @@ class ElementTranslator
             $source = array_merge($source, $fieldSource);
         }
 
-        if ($element instanceof Product && $element->getType()->maxVariants) {
+        if ($element instanceof Product && !empty($element->getVariants(true))) {
             $variants = $element->getVariants(true);
 
             foreach ($variants as $variant) {
@@ -93,6 +93,10 @@ class ElementTranslator
                         $key = array_shift($parts);
 
                         if (!isset($container[$key])) {
+                            $container[$key] = array();
+                        }
+
+                        if (!is_array($container[$key])) {
                             $container[$key] = array();
                         }
 
@@ -197,7 +201,7 @@ class ElementTranslator
             $post = array_merge($post, $fieldPost);
         }
 
-        if ($element instanceof Product && $element->getType()->maxVariants) {
+        if ($element instanceof Product && !empty($element->getVariants(true))) {
             $variants = $element->getVariants(true);
             $variantPost = [];
             foreach ($variants as $variant) {
@@ -222,7 +226,7 @@ class ElementTranslator
             $source = array_merge($source, $fieldSource);
         }
 
-        if ($element instanceof Product && $element->getType()->maxVariants) {
+        if ($element instanceof Product && !empty($element->getVariants(true))) {
             $variants = $element->getVariants(true);
             $variantSource = [];
             foreach ($variants as $variant) {

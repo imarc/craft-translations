@@ -71,6 +71,7 @@
 {% endblock %}
 
 {% block main %}
+<div class="grid">
 
     {% set emailSubject = 'Hello Acclaro' %}
     {% set emailBody = 'I’m interested in learning more about your professional translation services and how you can help with the launch of global Craft sites.%0D%0A%0D%0AThank you,%0D%0AYour Name%0D%0AYour Company%0D%0AYour Phone Number' %}
@@ -84,7 +85,7 @@
         <li><a class="go" href="https://www.surveymonkey.com/r/translationsplugin">{{ 'Submit Feedback'|t('app') }}</a></li>
     </ul>
 
-    <div id="translations-dashboard" style="visibility:hidden;">
+    <div id="translations-dashboard" style="visibility:hidden;" class="grid">
         {% for widget in widgets %}
             {% if widget %}
                 <div class="item" data-colspan="{{ widget.colspan }}">
@@ -101,7 +102,7 @@
                                 {% elseif widget.name == "Translation Coverage by Site" %}
                                     <h5 style="margin-bottom:10px;">Coverage information for target site entries.</h5>
                                 {% endif %}
-                                <div class="body">
+                               <div class="body" style="margin-bottom: 40px;">
                                     {{ widget.bodyHtml|raw }}
                                 </div>
                             </div>
@@ -124,6 +125,7 @@
             {% endif %}
         {% endfor %}
     </div>
+</div>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}

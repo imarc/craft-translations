@@ -5,6 +5,7 @@ namespace acclaro\translations\migrations;
 use acclaro\translations\Constants;
 use craft\db\Migration;
 
+
 /**
  * Combined migration for dropping activityLog column and creating activity_log table.
  */
@@ -29,10 +30,10 @@ class m240117_112821_create_activity_logs_table extends Migration
         $this->createIndex(null, Constants::TABLE_ACTIVITY_LOG, ['targetClass']);
 
         // Move data from activityLog column to activity_log table
-        $data = $this->db->createCommand('SELECT id, activityLog FROM {{%translations_orders}}')->queryAll();
+        $data = $this->db->createCommand('SELECT "id", "activityLog" FROM {{%translations_orders}}')->queryAll();
 
         foreach ($data as $row) {
-            $messages = json_decode($row['activityLog'], true);
+            $messages = json_decode($row['activityLog'], true) ?: [];
 
             foreach ($messages as $message) {
                 // Insert data into activity_log table

@@ -11,6 +11,7 @@
             var orgId = $('#settings-orgId');
             var prompt = $('#settings-prompt');
             var sandboxMode = $('#settings-sandboxMode');
+            var addToProgram = $('#settings-addToProgram');
     
             switch (service) {
                 case 'acclaro':
@@ -19,6 +20,7 @@
                     sandboxMode.removeClass('hidden');
                     orgId.addClass('hidden');
                     prompt.addClass('hidden');
+                    addToProgram.removeClass('hidden')
                     break;
                 case 'google':
                     this.updateServiceTokenLabel(service);
@@ -26,6 +28,7 @@
                     sandboxMode.addClass('hidden');
                     orgId.addClass('hidden');
                     prompt.addClass('hidden');
+                    addToProgram.removeClass('hidden')
                     break;
                 case 'chatgpt':
                     this.updateServiceTokenLabel(service);
@@ -33,12 +36,14 @@
                     orgId.removeClass('hidden');
                     prompt.removeClass('hidden');
                     sandboxMode.addClass('hidden');
+                    addToProgram.removeClass('hidden')
                     break;
                 default:
                     apiToken.addClass('hidden');
                     orgId.addClass('hidden');
                     prompt.addClass('hidden');
                     sandboxMode.addClass('hidden');
+                    addToProgram.removeClass('hidden')
             }
         },
     

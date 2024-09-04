@@ -22,6 +22,7 @@ use craft\commerce\elements\Product;
 use acclaro\translations\Translations;
 use acclaro\translations\elements\Order;
 use acclaro\translations\models\FileModel;
+use verbb\navigation\elements\Node as Navigation;
 use yii\web\ServerErrorHttpException;
 
 class UrlGenerator
@@ -84,11 +85,13 @@ class UrlGenerator
             return Translations::$plugin->urlHelper->url($element->getCpEditUrl(), $data);
         }
 
-        if ($element instanceof (Constants::CLASS_COMMERCE_PRODUCT) && $file->hasDraft() && $file->isComplete()) {
-            $data['draftId'] = $file->draftId;
-            $url = sprintf('commerce/product/%s/%s-%s', $element->type, $element->id ,$element->slug);
+        if ($element instanceof (Constants::CLASS_NAVIGATION)) {
+            if ($file->draftId && $file->isComplete()) {
+                $url = sprintf('translations/edit/%s/%s', $element->navId, $file->draftId);
+                return Translations::$plugin->urlHelper->cpUrl($url, $data);
+            }
 
-            return Translations::$plugin->urlHelper->cpUrl($url, $data);
+            return Translations::$plugin->urlHelper->url($element->getCpEditUrl(), $data);
         }
 
         if ($file->isPublished()) {
@@ -120,15 +123,18 @@ class UrlGenerator
 
     public function generateElementPreviewUrl(Element $element, $siteId = null)
     {
-        if ($element instanceof GlobalSet || $element instanceof Asset || $element instanceof Product) {
+        if (
+            $element instanceof GlobalSet ||
+            $element instanceof Asset ||
+            $element instanceof Product ||
+            $element instanceof Navigation
+            ) {
             return '';
         }
 
         $className = get_class($element);
 
-        if ($className === Product::class) {
-            $previewUrl = $element->url;
-        } else if (($className === Entry::class || $className === Category::class) && !$element->getIsDraft()) {
+        if (($className === Entry::class || $className === Category::class || $className === Product::class) && !$element->getIsDraft()) {
             $previewUrl = $element->url;
         } else {
             $route = [
