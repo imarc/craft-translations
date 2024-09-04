@@ -26,7 +26,7 @@ class HyperLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $element->getFieldValue($fieldHandle);
+        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
 
         if($fieldData){
             foreach($fieldData as $key => $value)
@@ -48,7 +48,7 @@ class HyperLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $element->getFieldValue($fieldHandle);
+        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
 
         if( $fieldData )
         {

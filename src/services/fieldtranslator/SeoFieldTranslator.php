@@ -70,7 +70,7 @@ class SeoFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $meta = $element->getFieldValue($fieldHandle);
+        $meta = $this->getFieldValue($elementTranslator, $element, $field);
 
         $source = array();
 

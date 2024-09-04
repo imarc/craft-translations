@@ -52,7 +52,7 @@ class AssetsFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $blocks = $element->getFieldValue($fieldHandle)->siteId($sourceSite)->all();
+        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->siteId($sourceSite)->all();
 
 
         $post[$fieldHandle] = [];
@@ -75,7 +75,7 @@ class AssetsFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $blocks = $element->getFieldValue($fieldHandle)->siteid($sourceSite)->all();
+        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->siteid($sourceSite)->all();
 
         $title = '';
 

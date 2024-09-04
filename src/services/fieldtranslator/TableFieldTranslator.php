@@ -50,7 +50,7 @@ class TableFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $fieldData = $element->getFieldValue($fieldHandle);
+        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
 
         return $fieldData ? array($fieldHandle => $fieldData) : array();
     }

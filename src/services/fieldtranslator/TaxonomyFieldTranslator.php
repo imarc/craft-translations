@@ -48,7 +48,7 @@ class TaxonomyFieldTranslator extends GenericFieldTranslator
         $fieldHandle = $field->handle;
 
         try {
-            $relations = $element->getFieldValue($fieldHandle)->all();
+            $relations = $this->getFieldValue($elementTranslator, $element, $field)->all();
         } catch (\Exception $e) {
             // Added this block to handle the fields created in craft 5 like heading4, body2, etc.
             foreach ($element->getFieldValues() as $key => $value) {
@@ -84,7 +84,7 @@ class TaxonomyFieldTranslator extends GenericFieldTranslator
         $fieldHandle = $field->handle;
 
         try {
-            $relations = $element->getFieldValue($fieldHandle)->all();
+            $relations = $this->getFieldValue($elementTranslator, $element, $field)->all();
         } catch (\Exception $e) {
             // Added this block to handle the fields created in craft 5 like heading4, body2, etc.
             foreach ($element->getFieldValues() as $key => $value) {

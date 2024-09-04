@@ -50,7 +50,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $blocks = $element->getFieldValue($fieldHandle)->all();
+        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
         if (!$blocks) {
             return [];
@@ -78,7 +78,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $blocks = $element->getFieldValue($fieldHandle)->all();
+        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
         $post = array(
             $fieldHandle => array(),
