@@ -26,7 +26,7 @@ class SeomaticMetaFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $meta = $element->getFieldValue($field->handle);
+        $meta = $this->getFieldValue($elementTranslator, $element, $field);
 
         if ($meta) {
             foreach ($this->translatableAttributes as $attribute) {
@@ -82,7 +82,7 @@ class SeomaticMetaFieldTranslator extends GenericFieldTranslator
     {
         $wordCount = 0;
 
-        $meta = $element->getFieldValue($field->handle);
+        $meta = $this->getFieldValue($elementTranslator, $element, $field);
 
         $attributes = array('seoTitle', 'seoDescription', 'seoKeywords');
 

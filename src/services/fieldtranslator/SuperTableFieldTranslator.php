@@ -218,7 +218,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 						$wordCount += $elementTranslator->getWordCount($block);
 					}
 				} else {
-					$blockElem = $element->getFieldValue($field->handle)->all();
+					$blockElem = $this->getFieldValue($elementTranslator, $element, $field)->all();
 					foreach ($blockElem as $key => $block) {
 						$wordCount += $elementTranslator->getWordCount($block);
 					}

@@ -27,7 +27,7 @@ class VizyFieldTranslator extends GenericFieldTranslator
 	{
 		$source = [];
 
-		$blocks = $element->getFieldValue($field->handle)->all();
+		$blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
 		if ($blocks) {
 			foreach ($blocks as $index => $block) {
@@ -46,7 +46,7 @@ class VizyFieldTranslator extends GenericFieldTranslator
 	{
 		$postArray = [];
 
-		$blocks = $element->getFieldValue($field->handle)->all();
+		$blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
 		if ($blocks) {
 			foreach ($blocks as $index => $block) {

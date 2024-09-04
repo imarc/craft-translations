@@ -23,7 +23,7 @@ class AssetsFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $blocks = $element->getFieldValue($field->handle)->siteId($sourceSite)->all();
+        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->siteId($sourceSite)->all();
 
         if ($blocks)
         {

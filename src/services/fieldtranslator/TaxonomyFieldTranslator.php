@@ -25,7 +25,7 @@ class TaxonomyFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $relations = $element->getFieldValue($field->handle)->all();
+        $relations = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
         if ($relations) {
             foreach ($relations as $i => $relation) {
@@ -121,7 +121,7 @@ class TaxonomyFieldTranslator extends GenericFieldTranslator
     {
         $wordCount = 0;
 
-        $relations = $element->getFieldValue($field->handle)->all();
+        $relations = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
         if ($relations) {
             foreach ($relations as $i => $relation) {

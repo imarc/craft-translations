@@ -24,7 +24,7 @@ class NeoFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $blocks = $element->getFieldValue($field->handle)->all();
+        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
 
         if ($blocks) {
             $new = 0;
