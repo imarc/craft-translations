@@ -16,7 +16,7 @@ class m240904_153700_update_element_site_titles extends Migration
     public function safeUp(): bool
     {
         // Check if the table exists
-        $this->db->execute("update elements_sites, content, translations_orders
+        $this->execute("update elements_sites, content, translations_orders
             set elements_sites.title = content.title
             where elements_sites.elementId = content.elementId
             and content.elementId = translations_orders.id");
