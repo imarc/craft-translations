@@ -43,7 +43,7 @@ use nystudio107\seomatic\fields\SeoSettings;
 
 use verbb\supertable\fields\SuperTableField;
 use lenz\linkfield\fields\LinkField as TypedLinkField;
-use verbb\hyper\fields\HyperField as HyperField;
+use verbb\hyper\fields\HyperField as HyperLinkField;
 use verbb\navigation\fields\NavigationField;
 
 class Factory
@@ -57,7 +57,7 @@ class Factory
         Matrix::class           => MatrixFieldTranslator::class,
         MultiSelect::class      => MultiSelectFieldTranslator::class,
         TypedLinkField::class   => TypedLinkFieldTranslator::class,
-        HyperField::class => HyperLinkFieldTranslator::class,
+        HyperLinkField::class   => HyperLinkFieldTranslator::class,
         LinkitField::class      => LinkitFieldTranslator::class,
         NeoField::class         => NeoFieldTranslator::class,
         Number::class           => GenericFieldTranslator::class,
@@ -77,7 +77,7 @@ class Factory
         Gender::class           => NsmFieldsTranslator::class,
         Embed::class            => NsmFieldsTranslator::class,
         VizyField::class  	    => VizyFieldTranslator::class,
-        NavigationField::class => NavigationFieldTranslator::class,
+        NavigationField::class  => NavigationFieldTranslator::class,
         CkEditorField::class    => GenericFieldTranslator::class
     );
 
