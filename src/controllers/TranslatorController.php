@@ -14,8 +14,8 @@ use Craft;
 use yii\web\HttpException;
 
 use acclaro\translations\Constants;
-use acclaro\translations\Translations;
 use acclaro\translations\services\translator\AcclaroTranslationService;
+use acclaro\translations\Translations;
 
 /**
  * @author    Acclaro
@@ -194,11 +194,11 @@ class TranslatorController extends BaseController
         if (!$translator) {
             return $this->asFailure($this->getErrorMessage('Invalid translator.'), []);
         }
-
+        
         $translatorSettings = json_decode($translator->settings, true);
-
+        
         $addToProgramAllowed = (bool) $translatorSettings['addToProgram'];
-
+        
         $programOptions = [];
         if($addToProgramAllowed) {
             $translationService = new AcclaroTranslationService($translatorSettings);

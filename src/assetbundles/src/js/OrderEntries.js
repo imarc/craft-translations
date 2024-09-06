@@ -25,11 +25,11 @@
 			self = this;
 			this.$publishSelectedBtn = $('#review');
 			this.$translateSelectedBtn = $('#settings').find('button[form=sync-order-google]');
+			this.$fileActions = $('#file-actions');
+			this.$selectAllCheckbox = $('.select-all-checkbox :checkbox');
 			if (!this.$translateSelectedBtn.length) {
 				this.$translateSelectedBtn = $('#settings').find('button[form=sync-order-chatgpt]');
 			}
-			this.$fileActions = $('#file-actions');
-			this.$selectAllCheckbox = $('.select-all-checkbox :checkbox');
 			this.$checkboxes = $('tbody .translations-checkbox-cell :checkbox').not('[disabled]');
 
 			this.$selectAllCheckbox.on('change', function() {

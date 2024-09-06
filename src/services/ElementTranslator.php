@@ -47,7 +47,7 @@ class ElementTranslator
 
         if ($element instanceof Product && !empty($element->getVariants(true))) {
             $variants = $element->getVariants(true);
-
+            
             foreach ($variants as $variant) {
                 $variantSource = $this->toTranslationSource($variant, $sourceSite);
                 
@@ -61,6 +61,7 @@ class ElementTranslator
                 
                 $source = array_merge($source, $variantSource);
             }
+
         }
         
         return $source;
@@ -93,10 +94,6 @@ class ElementTranslator
                         $key = array_shift($parts);
 
                         if (!isset($container[$key])) {
-                            $container[$key] = array();
-                        }
-
-                        if (!is_array($container[$key])) {
                             $container[$key] = array();
                         }
 
@@ -141,6 +138,10 @@ class ElementTranslator
                     $key = array_shift($parts);
 
                     if (!isset($container[$key])) {
+                        $container[$key] = array();
+                    }
+
+                    if (!is_array($container[$key])) {
                         $container[$key] = array();
                     }
 
@@ -204,10 +205,12 @@ class ElementTranslator
         if ($element instanceof Product && !empty($element->getVariants(true))) {
             $variants = $element->getVariants(true);
             $variantPost = [];
+
             foreach ($variants as $variant) {
                 $variantPost[$variant->id] = $this->toPostArrayFromTranslationTarget($variant, $sourceSite, $targetSite, $targetData['variant'][$variant->id], $includeNonTranslatable);
                 $variantPost[$variant->id]['title'] = $targetData['variant'][$variant->id]['title'] ?? $variant->title;
             }
+
             $post['variant'] = $variantPost;
         }
 
@@ -229,10 +232,12 @@ class ElementTranslator
         if ($element instanceof Product && !empty($element->getVariants(true))) {
             $variants = $element->getVariants(true);
             $variantSource = [];
+
             foreach ($variants as $variant) {
                 $variantSource[$variant->id] = $variant->getSerializedFieldValues();
                 $variantSource[$variant->id]['title'] = $variant->title;
             }
+
             $source['variant'] = $variantSource;
         }
 

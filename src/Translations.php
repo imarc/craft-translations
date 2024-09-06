@@ -382,7 +382,7 @@ class Translations extends Plugin
                     'translations/static-translations/export-file' => 'translations/static-translations/export-file',
                     'translations/static-translations/import' => 'translations/static-translations/import',
 
-                    // Asset, Commerce, Global-set Controllers
+                    // Asset, Commerce, Global-set, Node Controllers
                     'translations/assets/<elementId:\d+>/drafts/<draftId:\d+>' => 'translations/asset/edit-draft',
                     'translations/globals/<globalSetHandle:{handle}>/drafts/<draftId:\d+>' => 'translations/global-set/edit-draft',
                     'translations/edit/<nodeId:\d+>/<draftId:\d+>/' => 'translations/navigation/edit-draft',
@@ -402,7 +402,6 @@ class Translations extends Plugin
         if (preg_match('#^entries(/|$)#', $path)) {
             $this->_includeEntryResources();
         }
-
         // Only matches for commerce products
         if (preg_match('#^commerce/products(/|$)#', $path)) {
             $this->_includeCommerceResources();

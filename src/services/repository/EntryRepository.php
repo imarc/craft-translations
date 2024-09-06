@@ -54,6 +54,7 @@ class EntryRepository extends Component
 	private function makeNewDraft($canonical, $creatorId, $name, $notes, $newAttributes, $provisional = false)
 	{
         $canonical = $canonical->getIsDraft() ? $canonical->getCanonical() : $canonical;
+        $markAsSaved = ArrayHelper::remove($newAttributes, 'markAsSaved') ?? true;
 		// Fire a 'beforeCreateDraft' event
         $event = new DraftEvent([
             'canonical' => $canonical,

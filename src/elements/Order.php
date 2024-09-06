@@ -761,7 +761,6 @@ class Order extends Element
      */
     public function shouldProcessByQueue(): bool
     {
-        //return false;
         return ($this->wordCount * count($this->getTargetSitesArray())) > Constants::WORD_COUNT_LIMIT || $this->hasTranslator(Constants::TRANSLATOR_GOOGLE) || $this->hasTranslator(Constants::TRANSLATOR_CHATGPT);
     }
 
@@ -867,7 +866,7 @@ class Order extends Element
 
         $record->translatorId =  $this->translatorId;
         $record->ownerId =  $this->ownerId;
-        $record->programId = $this->programId;
+        $record->programId =  $this->programId;
         $record->sourceSite =  $this->sourceSite;
         $record->targetSites =  $this->targetSites;
         $record->status =  $this->status;

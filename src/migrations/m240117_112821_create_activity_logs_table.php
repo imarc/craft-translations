@@ -5,7 +5,6 @@ namespace acclaro\translations\migrations;
 use acclaro\translations\Constants;
 use craft\db\Migration;
 
-
 /**
  * Combined migration for dropping activityLog column and creating activity_log table.
  */

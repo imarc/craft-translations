@@ -178,6 +178,7 @@
 			});
 
 			if (haveDifferences($originalTags, $currentTags)) return true;
+
 		}
 
         return false;
@@ -304,7 +305,7 @@
         selectElement.empty();
 
         let originalProgramId = $('#originalProgramId').val();
-
+        
         let noneOptionElement = $('<option></option>')
             .val('')
             .text('None');
@@ -314,11 +315,11 @@
             let optionElement = $('<option></option>')
                 .val(option.id)
                 .text(option.name);
-
+    
             if (option.id == originalProgramId) {
                 optionElement.attr('selected', 'selected');
             }
-
+    
             selectElement.append(optionElement);
         });
     }
@@ -371,6 +372,7 @@
                 $('#comments-field').prop('title', 'This field cannot be edited.');
                 $('#requestedDueDate-field').addClass('disabled non-editable');
                 $('#requestedDueDate-field').prop('title', 'This field cannot be edited.');
+
                 $('#programId-field').addClass('disabled non-editable');
                 $('#programId-field').prop('title', 'This field cannot be edited.');
             }

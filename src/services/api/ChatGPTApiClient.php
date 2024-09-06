@@ -106,7 +106,7 @@ class ChatGPTApiClient
 
         $headers = array_merge(
             $defaultHeaders,
-            $headerParams,
+            $headerParams, 
             $headers
         );
 

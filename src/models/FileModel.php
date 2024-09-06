@@ -276,7 +276,7 @@ class FileModel extends Model
     {
         return $this->_service->getFilePreviewSettings($this);
     }
-    
+
     public function getEntryPreviewSettings()
     {
         return $this->_service->getEntryPreviewSettings($this);
