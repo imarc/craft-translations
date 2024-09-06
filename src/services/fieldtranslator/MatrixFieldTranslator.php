@@ -23,7 +23,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+        $blocks = $element->getFieldValue($field->handle)->all();
 
         if ($blocks) {
 
@@ -50,7 +50,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+        $blocks = $element->getFieldValue($fieldHandle)->all();
 
         if (!$blocks) {
             return [];
@@ -78,7 +78,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+        $blocks = $element->getFieldValue($fieldHandle)->all();
 
         $post = array(
             $fieldHandle => array(),

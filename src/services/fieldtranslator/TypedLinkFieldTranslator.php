@@ -27,7 +27,7 @@ class TypedLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
         
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
         
         if($fieldData){
             
@@ -52,7 +52,7 @@ class TypedLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
 
         if( $fieldData )
         {

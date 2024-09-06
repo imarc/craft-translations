@@ -117,7 +117,7 @@ class NavigationFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $blocks = $this->getFieldValue($elementTranslator, $element, $field);
+        $blocks = $element->getFieldValue($fieldHandle);
 
         if (!$blocks) {
             return [];

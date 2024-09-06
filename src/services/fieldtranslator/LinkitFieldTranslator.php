@@ -27,7 +27,7 @@ class LinkitFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
         
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
         
         if($fieldData){
             
@@ -55,7 +55,7 @@ class LinkitFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
 
         if( $fieldData )
         {

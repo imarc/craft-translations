@@ -25,7 +25,7 @@ class MultiSelectFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($field->handle);
 
         if ($fieldData) {
             if ($fieldData instanceof MultiOptionsFieldData) {
@@ -57,7 +57,7 @@ class MultiSelectFieldTranslator extends GenericFieldTranslator
      */
     public function toPostArray(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($field->handle);
 
         if ($fieldData instanceof MultiOptionsFieldData) {
             $fieldData = array_map(
@@ -118,7 +118,7 @@ class MultiSelectFieldTranslator extends GenericFieldTranslator
      */
     public function getFieldValue(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        $fieldData = $$this->getFieldValue($elementTranslator, $element, $field)ment->getFieldValue($field->handle);
+        $fieldData = $element->getFieldValue($field->handle);
 
         if ($fieldData instanceof MultiOptionsFieldData) {
             $fieldData = array_map(

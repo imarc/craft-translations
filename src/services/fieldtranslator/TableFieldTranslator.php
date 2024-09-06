@@ -24,7 +24,7 @@ class TableFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $rows = $this->getFieldValue($elementTranslator, $element, $field);
+        $rows = $element->getFieldValue($field->handle);
 
         $settings = $field->settings;
 
@@ -50,7 +50,7 @@ class TableFieldTranslator extends GenericFieldTranslator
     {
         $fieldHandle = $field->handle;
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
 
         return $fieldData ? array($fieldHandle => $fieldData) : array();
     }
@@ -93,7 +93,7 @@ class TableFieldTranslator extends GenericFieldTranslator
     {
         $wordCount = 0;
 
-        $rows = $this->getFieldValue($elementTranslator, $element, $field);
+        $rows = $element->getFieldValue($field->handle);
 
         $settings = $field->settings;
         

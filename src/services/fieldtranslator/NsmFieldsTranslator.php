@@ -41,7 +41,7 @@ class NsmFieldsTranslator extends GenericFieldTranslator
         $source = [];
 
         $fieldHandle = $field->handle;
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
 
         if ($fieldData) {
             switch (true) {
@@ -118,7 +118,7 @@ class NsmFieldsTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        $fieldData = $element->getFieldValue($fieldHandle);
 
         if( $fieldData )
         {

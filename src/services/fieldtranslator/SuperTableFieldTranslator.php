@@ -28,7 +28,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 
 		$fieldHandle = $field->handle;
 
-		$blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+		$blocks = $element->getFieldValue($fieldHandle)->all();
 
 		$blocks = $blocks ? array($fieldHandle => $blocks) : array();
 
@@ -56,7 +56,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 						}
 					}
 				} else {
-					$blockElem = $this->getFieldValue($elementTranslator, $element, $field);
+					$blockElem = $element->getFieldValue($fieldHandle);
 					foreach ($blockElem as $key => $block) {
 						$blockId = sprintf('new%s', ++$new);
 						$blockSource = $elementTranslator->toTranslationSource($block, $sourceSite);
@@ -80,11 +80,11 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 	{
 		$fieldHandle = $field->handle;
 
-		$fieldData = $this->getFieldValue($elementTranslator, $element, $field)->all();
+		$fieldData = $element->getFieldValue($fieldHandle)->all();
 
 		// return $fieldData ? array($fieldHandle => $fieldData) : array();
 
-		$blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+		$blocks = $element->getFieldValue($fieldHandle)->all();
 
 		$blocks = $blocks ? array($fieldHandle => $blocks) : array();
 
@@ -119,7 +119,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 					);
 				}
 			} else {
-				$blockElem = $this->getFieldValue($elementTranslator, $element, $field);
+				$blockElem = $element->getFieldValue($fieldHandle);
 				foreach ($blockElem as $key => $block) {
 					$n = sprintf('new%s', ++$new);
 					$blockId = $block-> id ?? $n;
@@ -141,7 +141,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 	{
 		$fieldHandle = $field->handle;
 
-		$blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+		$blocks = $element->getFieldValue($fieldHandle)->all();
 
 		$blocks = $blocks ? array($fieldHandle => $blocks) : array();
 
@@ -176,7 +176,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 					);
 				}
 			} else {
-				$blockElem = $this->getFieldValue($elementTranslator, $element, $field);
+				$blockElem = $element->getFieldValue($fieldHandle);
 				foreach ($blockElem as $key => $block) {
 					$n = sprintf('new%s', ++$new);
 					$blockId = $field->getIsTranslatable($element) ? $n : $block->id;
@@ -218,7 +218,7 @@ class SuperTableFieldTranslator extends GenericFieldTranslator
 						$wordCount += $elementTranslator->getWordCount($block);
 					}
 				} else {
-					$blockElem = $this->getFieldValue($elementTranslator, $element, $field)->all();
+					$blockElem = $element->getFieldValue($field->handle)->all();
 					foreach ($blockElem as $key => $block) {
 						$wordCount += $elementTranslator->getWordCount($block);
 					}

@@ -20,7 +20,7 @@ class EntriesFieldTranslator extends GenericFieldTranslator
     {
         $source = [];
 
-        $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+        $blocks = $element->getFieldValue($field->handle)->all();
 
         if ($blocks) {
             foreach ($blocks as $block) {
@@ -46,7 +46,7 @@ class EntriesFieldTranslator extends GenericFieldTranslator
         $fieldHandle = $field->handle;
 
         try {
-            $blocks = $this->getFieldValue($elementTranslator, $element, $field)->all();
+            $blocks = $element->getFieldValue($fieldHandle)->all();
         } catch (\Exception $e) {
             $blocks = $blocks ?? [];
             foreach ($element->getFieldValues() as $key => $value) {

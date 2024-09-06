@@ -10,6 +10,8 @@
 
 namespace acclaro\translations\services\fieldtranslator;
 
+use Craft;
+
 use craft\base\Field;
 use craft\base\Element;
 use acclaro\translations\Translations;
@@ -26,7 +28,11 @@ class HyperLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        try {
+            $fieldData = $element->getFieldValue($fieldHandle);
+        } catch (\Exception $e) {
+            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+        }
 
         if($fieldData){
             foreach($fieldData as $key => $value)
@@ -48,7 +54,11 @@ class HyperLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        $fieldData = $this->getFieldValue($elementTranslator, $element, $field);
+        try {
+            $fieldData = $element->getFieldValue($fieldHandle);
+        } catch (\Exception $e) {
+            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+        }
 
         if( $fieldData )
         {
