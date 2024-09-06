@@ -23,7 +23,14 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        $blocks = $element->getFieldValue($field->handle)->all();
+        //$blocks = $element->getFieldValue($field->handle)->all();
+        try {
+            $blocks = $element->getFieldValue($field->handle);
+            $fieldHandle = $field->handle;
+        } catch (\Exception $e) {
+            $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+            $fieldHandle = preg_replace('/\d+$/', '', $field->handle);
+        }
 
         if ($blocks) {
 
@@ -33,7 +40,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
                 $blockSource = $elementTranslator->toTranslationSource($block, $sourceSite);
 
                 foreach ($blockSource as $key => $value) {
-                    $key = sprintf('%s.%s.%s', $field->handle, $blockId, $key);
+                    $key = sprintf('%s.%s.%s', $fieldHandle, $blockId, $key);
 
                     $source[$key] = $value;
                 }
@@ -48,9 +55,14 @@ class MatrixFieldTranslator extends GenericFieldTranslator
      */
     public function toPostArray(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        $fieldHandle = $field->handle;
-
-        $blocks = $element->getFieldValue($fieldHandle)->all();
+        
+        try {
+            $blocks = $element->getFieldValue($field->handle);
+            $fieldHandle = $field->handle;
+        } catch (\Exception $e) {
+            $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+            $fieldHandle = preg_replace('/\d+$/', '', $field->handle);
+        }
 
         if (!$blocks) {
             return [];
@@ -76,9 +88,15 @@ class MatrixFieldTranslator extends GenericFieldTranslator
      */
     public function toPostArrayFromTranslationTarget(ElementTranslator $elementTranslator, Element $element, Field $field, $sourceSite, $targetSite, $fieldData)
     {
-        $fieldHandle = $field->handle;
+        
 
-        $blocks = $element->getFieldValue($fieldHandle)->all();
+        try {
+            $blocks = $element->getFieldValue($field->handle);
+            $fieldHandle = $field->handle;
+        } catch (\Exception $e) {
+            $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+            $fieldHandle = preg_replace('/\d+$/', '', $field->handle);
+        }
 
         $post = array(
             $fieldHandle => array(),

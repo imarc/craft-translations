@@ -23,7 +23,11 @@ class SingleOptionFieldTranslator extends GenericFieldTranslator
      */
     public function toTranslationSource(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        $fieldData = $element->getFieldValue($field->handle);
+        try {
+            $fieldData = $element->getFieldValue($field->handle);
+        } catch (\Exception $e) {
+            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+        }
 
         if ($fieldData instanceof SingleOptionFieldData) {
             if ($fieldData->selected) {
@@ -84,7 +88,11 @@ class SingleOptionFieldTranslator extends GenericFieldTranslator
      */
     public function getFieldValue(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        $fieldData = $element->getFieldValue($field->handle);
+        try {
+            $fieldData = $element->getFieldValue($field->handle);
+        } catch (\Exception $e) {
+            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+        }
 
         if ($fieldData instanceof SingleOptionFieldData) {
             $fieldData = $fieldData->selected ? $fieldData->value : '';
