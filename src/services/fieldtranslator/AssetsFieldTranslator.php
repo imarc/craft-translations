@@ -26,10 +26,8 @@ class AssetsFieldTranslator extends GenericFieldTranslator
         $blocks = $element->getFieldValue($field->handle)->siteId($sourceSite)->all();
 
         try {
-            Craft::info("Trying 1 " . $field->handle);
             $blocks = $element->getFieldValue($field->handle)->siteId($sourceSite)->all();
         } catch (\Exception $e) {
-            Craft::info("Failing 1 " . preg_replace('/\d+$/', '', $field->handle));
             $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle))->siteId($sourceSite)->all();
         }
 
@@ -61,10 +59,8 @@ class AssetsFieldTranslator extends GenericFieldTranslator
         $fieldHandle = $field->handle;
 
         try {
-            Craft::info("Trying 2 " . $field->handle);
             $blocks = $element->getFieldValue($field->handle)->siteId($sourceSite)->all();
         } catch (\Exception $e) {
-            Craft::info("Failing 2 " . preg_replace('/\d+$/', '', $field->handle));
             $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle))->siteId($sourceSite)->all();
         }
 
