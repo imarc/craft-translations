@@ -10,10 +10,9 @@
 
 namespace acclaro\translations\services\fieldtranslator;
 
-use Craft;
-
 use craft\base\Field;
 use craft\base\Element;
+use acclaro\translations\Constants;
 use acclaro\translations\Translations;
 use acclaro\translations\services\ElementTranslator;
 
@@ -31,7 +30,11 @@ class HyperLinkFieldTranslator extends GenericFieldTranslator
         try {
             $fieldData = $element->getFieldValue($fieldHandle);
         } catch (\Exception $e) {
-            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
+            Translations::$plugin->logHelper->log(
+                `[' . __METHOD__ . '] $fieldHandle not found.`,
+                Constants::LOG_LEVEL_ERROR
+            );
+            return $source;
         }
 
         if($fieldData){
@@ -54,11 +57,7 @@ class HyperLinkFieldTranslator extends GenericFieldTranslator
 
         $fieldHandle = $field->handle;
 
-        try {
-            $fieldData = $element->getFieldValue($fieldHandle);
-        } catch (\Exception $e) {
-            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-        }
+        $fieldData = $element->getFieldValue($fieldHandle);
 
         if( $fieldData )
         {

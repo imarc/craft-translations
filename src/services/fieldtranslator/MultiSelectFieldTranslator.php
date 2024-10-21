@@ -25,11 +25,7 @@ class MultiSelectFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        try {
-            $fieldData = $element->getFieldValue($field->handle);
-        } catch (\Exception $e) {
-            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-        }
+        $fieldData = $element->getFieldValue($field->handle);
 
         if ($fieldData) {
             if ($fieldData instanceof MultiOptionsFieldData) {
@@ -61,11 +57,7 @@ class MultiSelectFieldTranslator extends GenericFieldTranslator
      */
     public function toPostArray(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        try {
-            $fieldData = $element->getFieldValue($field->handle);
-        } catch (\Exception $e) {
-            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-        }
+        $fieldData = $element->getFieldValue($field->handle);
 
         if ($fieldData instanceof MultiOptionsFieldData) {
             $fieldData = array_map(
@@ -126,11 +118,7 @@ class MultiSelectFieldTranslator extends GenericFieldTranslator
      */
     public function getFieldValue(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        try {
-            $fieldData = $element->getFieldValue($field->handle);
-        } catch (\Exception $e) {
-            $fieldData = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-        }
+        $fieldData = $element->getFieldValue($field->handle);
 
         if ($fieldData instanceof MultiOptionsFieldData) {
             $fieldData = array_map(

@@ -11,12 +11,8 @@
 namespace acclaro\translations\console\controllers;
 
 use acclaro\translations\Translations;
-use acclaro\translations\services\api\ChatGPTApiClient as Client;
-use acclaro\translations\services\translator\ChatGPTTranslationService as Service;
 
 use yii\console\Controller;
-
-use Craft;
 
 /**
  * Command Command
@@ -37,14 +33,11 @@ class CommandController extends Controller
      */
     public function actionIndex()
     {
+        $result = 'something';
 
-        $order = Translations::$plugin->orderRepository->getOrderById(3647302);
-        echo json_encode($order) . "\n";
-        $translationService = $order->getTranslationService();
-        $files = $order->getFiles();
-        $translationService->syncOrder($order, [300]); 
+        echo "Welcome to the console CommandController actionIndex() method\n";
 
-        return true;
+        return $result;
     }
 
     /**
@@ -56,11 +49,7 @@ class CommandController extends Controller
     {
         $result = 'something';
 
-        echo "Welcome to the console CommandController actionDoSomething() method!!!!!\n";
-
-        $element = Craft::$app->assets->getAssetById(252789, 2);
-
-        echo json_encode($element) . "\n";
+        echo "Welcome to the console CommandController actionDoSomething() method\n";
 
         return $result;
     }

@@ -10,9 +10,11 @@
 
 namespace acclaro\translations\services\fieldtranslator;
 
+use acclaro\translations\Constants;
 use craft\base\Field;
 use craft\base\Element;
 use acclaro\translations\services\ElementTranslator;
+use acclaro\translations\Translations;
 
 class MatrixFieldTranslator extends GenericFieldTranslator
 {
@@ -23,13 +25,14 @@ class MatrixFieldTranslator extends GenericFieldTranslator
     {
         $source = array();
 
-        //$blocks = $element->getFieldValue($field->handle)->all();
         try {
-            $blocks = $element->getFieldValue($field->handle);
-            $fieldHandle = $field->handle;
+            $blocks = $element->getFieldValue($field->handle)->all();
         } catch (\Exception $e) {
-            $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-            $fieldHandle = preg_replace('/\d+$/', '', $field->handle);
+            Translations::$plugin->logHelper->log(
+                `[' . __METHOD__ . '] $field->handle not found.`,
+                Constants::LOG_LEVEL_ERROR
+            );
+            return $source;
         }
 
         if ($blocks) {
@@ -40,7 +43,7 @@ class MatrixFieldTranslator extends GenericFieldTranslator
                 $blockSource = $elementTranslator->toTranslationSource($block, $sourceSite);
 
                 foreach ($blockSource as $key => $value) {
-                    $key = sprintf('%s.%s.%s', $fieldHandle, $blockId, $key);
+                    $key = sprintf('%s.%s.%s', $field->handle, $blockId, $key);
 
                     $source[$key] = $value;
                 }
@@ -55,14 +58,9 @@ class MatrixFieldTranslator extends GenericFieldTranslator
      */
     public function toPostArray(ElementTranslator $elementTranslator, Element $element, Field $field)
     {
-        
-        try {
-            $blocks = $element->getFieldValue($field->handle);
-            $fieldHandle = $field->handle;
-        } catch (\Exception $e) {
-            $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-            $fieldHandle = preg_replace('/\d+$/', '', $field->handle);
-        }
+        $fieldHandle = $field->handle;
+
+        $blocks = $element->getFieldValue($fieldHandle)->all();
 
         if (!$blocks) {
             return [];
@@ -88,15 +86,9 @@ class MatrixFieldTranslator extends GenericFieldTranslator
      */
     public function toPostArrayFromTranslationTarget(ElementTranslator $elementTranslator, Element $element, Field $field, $sourceSite, $targetSite, $fieldData)
     {
-        
+        $fieldHandle = $field->handle;
 
-        try {
-            $blocks = $element->getFieldValue($field->handle);
-            $fieldHandle = $field->handle;
-        } catch (\Exception $e) {
-            $blocks = $element->getFieldValue(preg_replace('/\d+$/', '', $field->handle));
-            $fieldHandle = preg_replace('/\d+$/', '', $field->handle);
-        }
+        $blocks = $element->getFieldValue($fieldHandle)->all();
 
         $post = array(
             $fieldHandle => array(),

@@ -16,17 +16,13 @@ Craft.Translations.TranslatorDetail = {
                 this.updateServiceTokenLabel(service);
                 apiToken.removeClass('hidden');
                 sandboxMode.removeClass('hidden');
-                orgId.addClass('hidden');
-                prompt.addClass('hidden');
                 addToProgram.removeClass('hidden')
                 break;
             case 'google':
                 this.updateServiceTokenLabel(service);
                 apiToken.removeClass('hidden');
                 sandboxMode.addClass('hidden');
-                orgId.addClass('hidden');
-                prompt.addClass('hidden');
-                addToProgram.removeClass('hidden')
+                addToProgram.addClass('hidden');
                 break;
             case 'chatgpt':
                 this.updateServiceTokenLabel(service);
@@ -38,10 +34,8 @@ Craft.Translations.TranslatorDetail = {
                 break;
             default:
                 apiToken.addClass('hidden');
-                orgId.addClass('hidden');
-                prompt.addClass('hidden');
                 sandboxMode.addClass('hidden');
-                addToProgram.removeClass('hidden')
+                addToProgram.addClass('hidden');
         }
     },
 
@@ -67,7 +61,6 @@ Craft.Translations.TranslatorDetail = {
         this.toggleInputState($service, serviceValid, Craft.t('app', 'Please choose a translation service.'));
 
         switch (service) {
-                
             case 'export_import':
                 break;
             case 'chatgpt':
@@ -86,6 +79,7 @@ Craft.Translations.TranslatorDetail = {
                 valid = valid && apiTokenValid
                 break;
         }
+
         return valid;
     },
 
