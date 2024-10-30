@@ -14,6 +14,9 @@ use acclaro\translations\Constants;
 use Craft;
 use craft\elements\User;
 use craft\base\Component;
+use craft\db\Connection;
+use craft\db\Query;
+use craft\db\Table;
 use craft\services\Drafts;
 use craft\events\DraftEvent;
 use craft\behaviors\DraftBehavior;
@@ -92,6 +95,21 @@ class EntryRepository extends Component
                 unset($newAttributes['siteId']);
             }
             $draft = Craft::$app->getElements()->duplicateElement($canonical, $newAttributes);
+
+             // Duplicate nested element ownership
+             Craft::$app->getDb()->createCommand(sprintf(
+                <<<SQL
+                INSERT INTO %s ([[elementId]], [[ownerId]], [[sortOrder]])
+                SELECT [[o.elementId]], :draftId, [[o.sortOrder]]
+                FROM %s AS [[o]]
+                WHERE [[o.ownerId]] = :canonicalId
+                SQL,
+                                Table::ELEMENTS_OWNERS,
+                                Table::ELEMENTS_OWNERS,
+                            ), [
+                                ':draftId' => $draft->id,
+                                ':canonicalId' => $canonical->id,
+                            ])->execute();
 
             if (!$entryInTargetSite) {
                 // We can only set the target site it it does not exist else craft erros out.
